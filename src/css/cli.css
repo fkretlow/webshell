@@ -1,0 +1,38 @@
+.cli-container {
+  background-color: #1d1c2b;
+  color: snow;
+  font-family: monospace;
+  font-size: 1.15em;
+  padding: 2em 2.4em;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.cli-input,
+.cli-input:active,
+.cli-input:focus {
+  background-color: inherit;
+  border: none;
+  cursor: default;
+  font: inherit;
+  margin: 0;
+  outline: none;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  transition: color .2s ease;
+  width: 100%;
+}
+
+.cli-input {
+  color: transparent;
+}
+
+.cli-input:focus {
+  color: inherit;
+}
+
+.cli-listing-line,
+.cli-input {
+  padding: .1em 0;
+}

@@ -1,11 +1,10 @@
-import { Shell } from "./shell.js";
+/* TS usually omits the file ending, but this is needed for the browser */
+import { CLInterface } from "./cli.js"; 
 
 window.addEventListener("load", () => {
-    const r: HTMLElement | null = document.querySelector("#shell");
+    const r: HTMLElement | null = document.querySelector("#cli");
     console.log(r);
     if (r) {
-        let shell: Shell = new Shell(r);
-        shell.inputLine("new line");
-        shell.inputLine("second line");
+        let cli: CLInterface = new CLInterface(r);
     }
 });

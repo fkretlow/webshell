@@ -7,4 +7,4 @@ build:
 
 clean:
 	rm -rf build
-	rm ./src/ts/*.js
+	rm -f ./src/ts/*.js
