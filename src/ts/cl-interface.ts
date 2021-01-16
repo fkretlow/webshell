@@ -1,51 +1,40 @@
-interface IStreamListener {
-    notify(what: string): void;
-}
-interface IStream {
-    subscribe(who: IStreamListener): void;
-    unsubscribe(whom: IStreamListener): void;
-}
-interface OStream {
-    push(what: string): void;
-}
+import { InputDevice, OutputDevice, InputConsumer } from "./interfaces.js";
 
-class CLInterface implements IStream, OStream {
+class CLInterface implements InputDevice, OutputDevice {
     private active: Boolean = false;
     private history: string[] = [];
-    private output: HTMLUListElement = new HTMLUListElement();
-    private input: HTMLInputElement = new HTMLInputElement();
-    private listeners: IStreamListener[] = [];
+    private engine: InputConsumer | null = null;
+    private output: HTMLUListElement;
+    private input: HTMLInputElement;
 
     constructor(private root: HTMLElement) {
         this.root.classList.add("cli-container");
 
-        // this.output = document.createElement("ul");
+        this.output = document.createElement("ul");
         this.output.classList.add("cli-output");
         this.root.appendChild(this.output);
 
-        // this.input = document.createElement("input");
+        this.input = document.createElement("input")
         this.input.classList.add("cli-input");
         this.root.appendChild(this.input);
-        this.input.value = this.engine.prompt();
 
         /* Trap tab. */
         this.input.addEventListener("keydown", (e) => {
-            if (e.which === 9) {
-                e.preventDefault();
-                this.input.value += "\t";
+            e.preventDefault();
+            if (this.engine) {
+                this.engine.consume(e);
+                this.input.value = this.engine.getPrompt();
             }
-        })
+        });
 
-        this.input.addEventListener("input", e => { this.commit(e); });
         this.input.addEventListener("blur", e => { this.deactivate(e); });
         this.root.addEventListener("click", e => { this.activate(e); });
-        window.addEventListener("click", () => { if (this.active) this.deactivate(); });
+        window.addEventListener("click", e => { if (this.active) this.deactivate(e); });
     }
 
     activate(e: Event): void {
         if (!this.active) {
             this.active = true;
-            this.input.value = this.engine.prompt();
             this.input.focus();
         }
         e.stopPropagation();
@@ -68,12 +57,25 @@ class CLInterface implements IStream, OStream {
         }
     }
 
+    lockInput(to: InputConsumer): Boolean {
+        if (this.engine) return false;
+        this.engine = to;
+        this.input.value = this.engine.getPrompt();
+        return true;
+    }
+
+    releaseInput(): void {
+        this.engine = null;
+    }
+
     push(what: string): void {
         for (const line of what.split("\n")) {
             this.history.push(line);
         }
         this.update();
     }
+
+    clear(): void {}
 }
 
 export { CLInterface };
