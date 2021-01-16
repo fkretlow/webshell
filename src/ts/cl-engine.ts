@@ -8,7 +8,7 @@ abstract class CLEngine implements InputConsumer {
 }
 
 class WebShell extends CLEngine {
-    private _prompt: string = "$ ";
+    private _prompt: string = "~ $ ";
     private inputBuffer: string = "";
     private stdout: OutputDevice | null = null;
     private stdin:  InputDevice  | null = null;
@@ -53,15 +53,18 @@ class WebShell extends CLEngine {
     }
 
     public getPrompt(): string {
-        return this._prompt + this.inputBuffer;
+        return `<span class="cli-prompt-prefix">${this._prompt}</span><span class="cli-prompt">${this.inputBuffer}</span>`
     }
 
     private commit(): void {
-        this.print(this.getPrompt());
+        this.print(this._prompt + this.inputBuffer);
         if (this.inputBuffer.startsWith("vim")) {
             this.print("You gotta be kidding!");
+        } else if (this.inputBuffer.startsWith("pwd")) {
+            this.print("/home/florian");
         } else {
-            this.print("I don't understand this.");
+            let cmd: string = this.inputBuffer.split(" ")[0];
+            this.print(`${cmd}: command not found.\n`);
         }
         this.clearInputBuffer();
     }

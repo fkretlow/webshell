@@ -1,12 +1,13 @@
 .cli-container {
   background-color: #1d1c2b;
+  box-shadow: 3px 3px 4px rgba(0,0,0,.1);
   color: rgba(255,255,255,.75);
   font-family: monospace;
   font-size: 1.15em;
   padding: 2em 2.4em;
   position: relative;
   transition: color .2s ease;
-  width: 100vw;
+  width: 60vw;
   height: 100vh;
 }
 
@@ -17,20 +18,24 @@
 .cli-input,
 .cli-input:active,
 .cli-input:focus {
-  background-color: inherit;
+  background-color: transparent;
   border: none;
-  color: inherit;
-  cursor: default;
-  font: inherit;
+  color: transparent;
+  height: 0px;
   margin: 0;
-  outline: none;
+  outline: 0;
   padding: 0;
-  tab-size: 4;
-  -moz-tab-size: 4;
-  transition: color .2s ease;
-  width: 100%;
+  position: absolute;
+  width: 0px;
 }
 
 .cli-output {
   color: inherit;
+}
+
+.cli-prompt-prefix {
+  font: inherit;
+}
+.cli-prompt {
+  font: inherit;
 }

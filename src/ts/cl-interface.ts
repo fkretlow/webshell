@@ -6,6 +6,7 @@ class CLInterface implements InputDevice, OutputDevice {
     private engine: InputConsumer | null = null;
     private output: HTMLUListElement;
     private input: HTMLInputElement;
+    private prompt: HTMLDivElement;
 
     constructor(private root: HTMLElement) {
         this.root.classList.add("cli-container");
@@ -13,6 +14,10 @@ class CLInterface implements InputDevice, OutputDevice {
         this.output = document.createElement("ul");
         this.output.classList.add("cli-output");
         this.root.appendChild(this.output);
+
+        this.prompt = document.createElement("div");
+        this.prompt.classList.add("cli-prompt");
+        this.root.appendChild(this.prompt);
 
         this.input = document.createElement("input")
         this.input.classList.add("cli-input");
@@ -23,7 +28,7 @@ class CLInterface implements InputDevice, OutputDevice {
             e.preventDefault();
             if (this.engine) {
                 this.engine.consume(e);
-                this.input.value = this.engine.getPrompt();
+                this.updatePrompt();
             }
         });
 
@@ -57,10 +62,15 @@ class CLInterface implements InputDevice, OutputDevice {
         }
     }
 
+    updatePrompt(): void {
+        if (!this.engine) return;
+        this.prompt.innerHTML = this.engine.getPrompt();
+    }
+
     lockInput(to: InputConsumer): Boolean {
         if (this.engine) return false;
         this.engine = to;
-        this.input.value = this.engine.getPrompt();
+        this.updatePrompt();
         return true;
     }
 
