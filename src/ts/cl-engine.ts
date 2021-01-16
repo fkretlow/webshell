@@ -11,9 +11,9 @@ class WebShell extends CLEngine {
     private _prompt: string = "$ ";
     private inputBuffer: string = "";
     private stdout: OutputDevice | null = null;
-    private stdin: InputDevice | null = null;
+    private stdin:  InputDevice  | null = null;
 
-    public constructor(cli: InputDevice & OutputDevice | null = null) {
+    public constructor(cli: (InputDevice & OutputDevice) | null = null) {
         super();
         if (cli) {
             this.attachInput(cli);
@@ -22,7 +22,7 @@ class WebShell extends CLEngine {
         this.initiate();
     }
 
-    initiate(): void {
+    public initiate(): void {
         this.print("Welcome. Type 'help' to see what you can do.");
     }
 
