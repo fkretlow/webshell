@@ -37,5 +37,32 @@
   font: inherit;
 }
 .cli-prompt {
+  display: inline-block;
   font: inherit;
+}
+
+.cli-prompt-caret {
+  font: inherit;
+  font-size: .85em;
+  margin-left: .075em;
+  opacity: 0;
+}
+
+.cli-container:focus-within .cli-prompt-caret {
+  animation-name: blink;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(1, jump-start);
+}
+
+@keyframes blink {
+  from {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

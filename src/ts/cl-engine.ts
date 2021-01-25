@@ -36,7 +36,8 @@ class WebShell extends CLEngine {
     }
 
     public consume(e: KeyboardEvent): void {
-        if (e.key.length == 1) this.inputBuffer += e.key;
+        if      (e.key == " ")      this.inputBuffer += "\u00A0";
+        else if (e.key.length == 1) this.inputBuffer += e.key;
         else {
             switch (e.key) {
                 case "Backspace":
@@ -64,7 +65,7 @@ class WebShell extends CLEngine {
             this.print("/home/florian");
         } else {
             let cmd: string = this.inputBuffer.split(" ")[0];
-            this.print(`${cmd}: command not found.\n`);
+            this.print(`${cmd.split(/\W/)[0]}: command not found.\n`);
         }
         this.clearInputBuffer();
     }

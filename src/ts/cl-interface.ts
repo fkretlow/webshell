@@ -7,6 +7,7 @@ class CLInterface implements InputDevice, OutputDevice {
     private output: HTMLUListElement;
     private input: HTMLInputElement;
     private prompt: HTMLDivElement;
+    private caret: HTMLSpanElement;
 
     constructor(private root: HTMLElement) {
         this.root.classList.add("cli-container");
@@ -18,6 +19,11 @@ class CLInterface implements InputDevice, OutputDevice {
         this.prompt = document.createElement("div");
         this.prompt.classList.add("cli-prompt");
         this.root.appendChild(this.prompt);
+
+        this.caret = document.createElement("span");
+        this.caret.textContent = "\u2588";
+        this.caret.classList.add("cli-prompt-caret");
+        this.root.appendChild(this.caret);
 
         this.input = document.createElement("input")
         this.input.classList.add("cli-input");
